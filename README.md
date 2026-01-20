@@ -9,6 +9,7 @@
 
 - Para variables de entorno `npm i dotenv joi`
 - Prisma `npm install prisma --save-dev`
+- Microservicios `npm i --save @nestjs/microservices`
 
 
 ## Migraciones Prisma
