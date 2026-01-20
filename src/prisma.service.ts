@@ -9,7 +9,6 @@ export class PrismaService extends PrismaClient {
     constructor() {
         const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL });
         super({ adapter });
-
         this.logger.log('Database connected');
     }
 }

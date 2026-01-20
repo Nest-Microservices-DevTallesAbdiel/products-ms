@@ -9,3 +9,11 @@
 
 - Para variables de entorno `npm i dotenv joi`
 - Prisma `npm install prisma --save-dev`
+
+
+## Migraciones Prisma
+Cada vez que se actualice el schema de nuestra base de datos, es decir,
+el modelo de prisma, es necesario hacer la migración en consola con los siguientes comandos:
+
+1. `npx prisma migrate dev --name <algo_relacionado_al_cambio_que_hicimos>`
+2. `npx prisma generate`
