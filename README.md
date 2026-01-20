@@ -6,4 +6,6 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
 ### STACK
-Para variables de entorno `npm i dotenv joi`
+
+- Para variables de entorno `npm i dotenv joi`
+- Prisma `npm install prisma --save-dev`
