@@ -41,8 +41,9 @@ export class ProductsService {
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
+    const { id: __, ...data } = updateProductDto;
     return this.prisma.product.update({
-      data: updateProductDto,
+      data,
       where: { id }
     }) //todo: refactorizar para que muestre un mensaje de error si no se actuzalizo ningun producto
   }
