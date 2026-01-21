@@ -1,12 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma.service';
 import { PaginationDto } from '../common/dto/pagination.dto';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductsService {
+
   constructor(private prisma: PrismaService) { }
+
   async create(createProductDto: CreateProductDto) {
     const product = await this.prisma.product.create({
       data: createProductDto
@@ -36,12 +39,16 @@ export class ProductsService {
 
   async findOne(id: number) {
     const product = await this.prisma.product.findFirst({ where: { id, available: true } });
-    if (!product) throw new NotFoundException(`Product with id ${id} not founf`);
+    if (!product) throw new RpcException({
+      message: `Product with id ${id} not found`,
+      status: HttpStatus.BAD_REQUEST
+    });
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
+  async update(id: number, updateProductDto: UpdateProductDto) {
     const { id: __, ...data } = updateProductDto;
+    await this.findOne(id);
     return this.prisma.product.update({
       data,
       where: { id }
@@ -62,12 +69,14 @@ export class ProductsService {
     */
 
     //Soft delete
+    await this.findOne(id);
     const product = await this.prisma.product.update({
       where: { id },
       data: {
         available: false
       }
-    })
+    });
+    return product;
 
   }
 }
